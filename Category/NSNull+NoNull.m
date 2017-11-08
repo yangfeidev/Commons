@@ -14,7 +14,7 @@
 {
     if ([self respondsToSelector:[invocation selector]]) {
         [invocation invokeWithTarget:self];
-        //// 测试
+        
     }
 }
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
