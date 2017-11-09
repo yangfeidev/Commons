@@ -1,17 +1,14 @@
 //
 //  YFScanViewController.m
-//  LCQRcodeScan
 //
 //  Created by YangFei on 2017/11/9.
-//  Copyright © 2017年 刘通超. All rights reserved.
+//  Copyright © 2017年 JBL. All rights reserved.
 //
 
 #import "YFScanViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
-/**
- *  屏幕 高 宽 边界
- */
+
 #define SCREEN_HEIGHT   [UIScreen mainScreen].bounds.size.height
 #define SCREEN_WIDTH    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_BOUNDS   [UIScreen mainScreen].bounds
