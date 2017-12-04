@@ -59,6 +59,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (CGSize)yf_imageSizeWithURL:(id)URL;
 
+/**
+ *  切割出在指定位置中的图片
+ *
+ *  @param rect 要切割的rect
+ *
+ *  @return 切割后的新图片
+ */
+- (UIImage *)yf_imageWithClippedRect:(CGRect)rect;
+
+
+
+
+
+
+
 
 NS_ASSUME_NONNULL_END
 @end

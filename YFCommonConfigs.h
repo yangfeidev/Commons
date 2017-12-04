@@ -76,6 +76,7 @@
 
 
 /** 设备屏幕尺寸*/
+#define IS_58INCH_SCREEN    [YFHelper is58InchScreen]
 #define IS_55INCH_SCREEN    [YFHelper is55InchScreen]
 #define IS_47INCH_SCREEN    [YFHelper is47InchScreen]
 #define IS_40INCH_SCREEN    [YFHelper is40InchScreen]
@@ -83,7 +84,7 @@
 
 /// 控件高度
 #define YFNavigationBarHeight  (44)
-#define YFTabBarHeight         (49)
+#define YFTabBarHeight         ([YFHelper is58InchScreen] ? 83:49)
 #define YFStatusBarHeight      (20)
 
 /** YF */
@@ -91,6 +92,7 @@
 #define YFiPhone5_OR_5c_OR_5s     (SCREEN_HEIGHT == 568)
 #define YFiPhone6_OR_6s           (SCREEN_HEIGHT == 667)
 #define YFiPhone6Plus_OR_6sPlus   (SCREEN_HEIGHT == 736)
+#define YFiPhoneX                 (SCREEN_HEIGHT == 812)
 #define YFiPad                    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #pragma mark - /**************** 常用代码 ****************/
@@ -196,6 +198,7 @@ UIEdgeInsetsGetVerticalValue(UIEdgeInsets insets) {
 
 
 #define YFStringIsEquals(string, anotherString)       [string isEqualToString:anotherString]
+
 
 
 #endif /* YFCommonConfigs_h */
