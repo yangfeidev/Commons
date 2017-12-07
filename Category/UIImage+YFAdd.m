@@ -203,20 +203,14 @@
         // 要裁剪的区域比自身大，所以不用裁剪直接返回自身即可
         return self;
     }
-    ///把像 素rect 转化为 点rect（如无转化则按原图像素取部分图片）
-    CGFloat scale = [UIScreen mainScreen].scale;
-    CGFloat x = rect.origin.x * scale;
-    CGFloat y = rect.origin.y * scale;
-    CGFloat width = rect.size.width * scale;
-    CGFloat height = rect.size.height * scale;
-    CGRect clippedRect = CGRectMake(x, y, width, height);
-    /// 截取部分图片并生成新图片
-    CGImageRef sourceImageRef = [self CGImage];
-    CGImageRef newImageRef = CGImageCreateWithImageInRect(sourceImageRef, clippedRect);
-    UIImage *outImage = [UIImage imageWithCGImage:newImageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-    return outImage;
-}
+    // 由于CGImage是以pixel为单位来计算的，而UIImage是以point为单位，所以这里需要将传进来的point转换为pixel
+    CGRect scaledRect = CGRectApplyScale(rect, self.scale);
+    CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, scaledRect);
+    UIImage *imageOut = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
+    CGImageRelease(imageRef);
+    return imageOut;
 
+}
 
 
 @end
