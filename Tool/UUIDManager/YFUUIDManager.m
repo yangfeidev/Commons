@@ -11,8 +11,8 @@
 
 @implementation YFUUIDManager
 
-static NSString * const KEY_IN_KEYCHAIN = @"Project_JBL_Bundle ID";
-static NSString * const KEY_UUID = @"Project_JBL_BundleID.uuid";
+static NSString * const KEY_IN_KEYCHAIN = @"Project_KEYCHAIN_Key";
+static NSString * const KEY_UUID = @"Project_UUID_Key";
 
 + (void)saveUUID {
     
