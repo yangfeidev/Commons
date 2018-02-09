@@ -87,6 +87,9 @@
 #define YFTabBarHeight         ([YFHelper is58InchScreen] ? 83:49)
 #define YFStatusBarHeight      (20)
 
+#define ScreenScale ([[UIScreen mainScreen] scale])
+
+
 /** YF */
 #define YFiPhone4_OR_4s           (SCREEN_HEIGHT == 480)
 #define YFiPhone5_OR_5c_OR_5s     (SCREEN_HEIGHT == 568)
@@ -186,6 +189,52 @@ CG_INLINE CGFloat
 UIEdgeInsetsGetVerticalValue(UIEdgeInsets insets) {
     return insets.top + insets.bottom;
 }
+
+
+
+#pragma mark - CGFloat
+
+/**
+ *  某些地方可能会将 CGFLOAT_MIN 作为一个数值参与计算（但其实 CGFLOAT_MIN 更应该被视为一个标志位而不是数值），可能导致一些精度问题，所以提供这个方法快速将 CGFLOAT_MIN 转换为 0
+ *  issue: https://github.com/QMUI/QMUI_iOS/issues/203
+ */
+CG_INLINE CGFloat
+removeFloatMin(CGFloat floatValue) {
+    return floatValue == CGFLOAT_MIN ? 0 : floatValue;
+}
+/**
+ *  基于指定的倍数，对传进来的 floatValue 进行像素取整。若指定倍数为0，则表示以当前设备的屏幕倍数为准。
+ *
+ *  例如传进来 “2.1”，在 2x 倍数下会返回 2.5（0.5pt 对应 1px），在 3x 倍数下会返回 2.333（0.333pt 对应 1px）。
+ */
+CG_INLINE CGFloat
+flatSpecificScale(CGFloat floatValue, CGFloat scale) {
+    floatValue = removeFloatMin(floatValue);
+    scale = scale == 0 ? ScreenScale : scale;
+    CGFloat flattedValue = ceil(floatValue * scale) / scale;
+    return flattedValue;
+}
+/**
+ *  基于当前设备的屏幕倍数，对传进来的 floatValue 进行像素取整。
+ *
+ *  注意如果在 Core Graphic 绘图里使用时，要注意当前画布的倍数是否和设备屏幕倍数一致，若不一致，不可使用 flat() 函数，而应该用 flatSpecificScale
+ */
+CG_INLINE CGFloat
+flat(CGFloat floatValue) {
+    return flatSpecificScale(floatValue, 0);
+}
+/// 对CGRect的x/y、width/height都调用一次flat，以保证像素对齐
+CG_INLINE CGRect
+CGRectFlatted(CGRect rect) {
+    return CGRectMake(flat(rect.origin.x), flat(rect.origin.y), flat(rect.size.width), flat(rect.size.height));
+}
+/// 为一个CGRect叠加scale计算
+CG_INLINE CGRect
+CGRectApplyScale(CGRect rect, CGFloat scale) {
+    return CGRectFlatted(CGRectMake(CGRectGetMinX(rect) * scale, CGRectGetMinY(rect) * scale, CGRectGetWidth(rect) * scale, CGRectGetHeight(rect) * scale));
+}
+
+
 
 /// JBL
 #define MallMainStroyboard                           [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil]
